@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 requestQueue=null;
-                GetNumber();          // this method will contain your almost-finished HTTP calls
+                NameOfRunnable.run();          // this method will contain your almost-finished HTTP calls
                 handler.postDelayed(this, 5000);
             }
         }, 5000);
@@ -141,11 +141,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // get ticket funtion (send request to the API using volly, get the response on json object in json array then forward the ticket number to the first calling function)
-    public  void GetNumber(){
-        SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(this);
+    public Runnable NameOfRunnable = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+        SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         if(flag==0) {
             flag=1;
-            String servIP = "http://192.168.1.37/MainDisplay/MainDisplayAPI.php";//pref.getString("serverIP","");
+            String servIP = "http://172.20.10.3/MainDisplay/MainDisplayAPI.php";//pref.getString("serverIP","");
             if (requestQueue == null) {
                 requestQueue = Volley.newRequestQueue(MainActivity.this);
             }
@@ -191,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
         {
             waitFun();
         }
-    }
+        }
+    };
     // first calling fun() get array fo string content ticket number at 0 and counter number at 1 then set them at textView and genret the sounds in array of
     // sounds and send the sounds to the second calling fun()
     private void callTicket(String[][] queu) {
